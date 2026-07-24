@@ -4,8 +4,6 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.registry.Registries;
@@ -17,20 +15,18 @@ import net.minecraft.util.Identifier;
 public class PisaMod implements ModInitializer {
     public static final String MOD_ID = "pisamod";
     
-    // Общий кулдаун 10 секунд для всех игроков
     private static long lastSpawnTime = 0;
 
     public static final EntityType<PisaEntity> PISA_ENTITY = Registry.register(
         Registries.ENTITY_TYPE,
         Identifier.of(MOD_ID, "pisa"),
-        FabricEntityTypeBuilder.create(SpawnGroup.MISC, PisaEntity::new)
-            .dimensions(EntityDimensions.fixed(1.0f, 1.5f))
+        EntityType.Builder.<PisaEntity>create(PisaEntity::new, SpawnGroup.MISC)
+            .dimensions(1.0f, 1.5f)
             .build()
     );
 
     @Override
     public void onInitialize() {
-        // Регистрация пакета переключения режимов
         PayloadTypeRegistry.playC2S().register(PisaPayload.PACKET_ID, PisaPayload.CODEC);
 
         ServerPlayNetworking.registerGlobalReceiver(PisaPayload.PACKET_ID, (payload, context) -> {
@@ -41,7 +37,6 @@ public class PisaMod implements ModInitializer {
             });
         });
 
-        // Регистрация команды /pisa spawn
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             dispatcher.register(CommandManager.literal("pisa")
                 .then(CommandManager.literal("spawn")
@@ -67,4 +62,4 @@ public class PisaMod implements ModInitializer {
             );
         });
     }
-                    }
+}
