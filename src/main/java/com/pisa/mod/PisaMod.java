@@ -8,6 +8,8 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -17,12 +19,19 @@ public class PisaMod implements ModInitializer {
     
     private static long lastSpawnTime = 0;
 
+    // Создаем ключ реестра для сущности (требуется в 1.21.4)
+    public static final RegistryKey<EntityType<?>> PISA_KEY = RegistryKey.of(
+        RegistryKeys.ENTITY_TYPE,
+        Identifier.of(MOD_ID, "pisa")
+    );
+
+    // Регистрация сущности с передачей ключа в build()
     public static final EntityType<PisaEntity> PISA_ENTITY = Registry.register(
         Registries.ENTITY_TYPE,
-        Identifier.of(MOD_ID, "pisa"),
+        PISA_KEY,
         EntityType.Builder.<PisaEntity>create(PisaEntity::new, SpawnGroup.MISC)
             .dimensions(1.0f, 1.5f)
-            .build()
+            .build(PISA_KEY)
     );
 
     @Override
