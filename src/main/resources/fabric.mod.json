@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "pisamod",
+  "version": "1.0.0",
+  "name": "Pisa Mod",
+  "description": "Custom flying vehicle mod",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.pisa.mod.PisaMod"
+    ],
+    "client": [
+      "com.pisa.mod.PisaModClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "~1.21.4",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
