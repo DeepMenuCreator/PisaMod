@@ -114,4 +114,4 @@ public class PisaEntity extends Entity {
     protected void writeCustomDataToNbt(NbtCompound nbt) {
         nbt.putBoolean("FlyingMode", isFlyingMode());
     }
-                }
+}
